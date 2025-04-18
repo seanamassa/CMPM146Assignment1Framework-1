@@ -17,7 +17,7 @@ public class SteeringBehavior : MonoBehaviour
     // Minimum speed for the car
     public float minSpeed = 4f;
     public float maxSpeed = 10f;
-        // Smooth turning parameters
+    // Smooth turning parameters
     public float rotationSpeed = 10f;  // Rotation speed (degrees per second)
     private float turnSmoothVelocity;
 
