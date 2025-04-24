@@ -41,10 +41,6 @@ public class SteeringBehavior : MonoBehaviour
         EventBus.OnSetMap += SetMap;
     }
 
-// PASTE THIS VERSION BACK INTO YOUR SteeringBehavior.cs
-
-    // Update is called once per frame
-    // --- ALL LOGIC MOVED HERE ---
     void Update()
     {
         if (kinematic == null) return;
@@ -92,7 +88,6 @@ public class SteeringBehavior : MonoBehaviour
                     currentPathIndex++;
                     if (currentPathIndex >= path.Count) {
                         // No more waypoints, let the stopping condition below handle it
-                        // Just don't return early!
                     } else {
                         currentTarget = path[currentPathIndex];
                         isFinalDestination = (currentPathIndex == path.Count - 1);
@@ -112,7 +107,7 @@ public class SteeringBehavior : MonoBehaviour
         float distance = Vector3.Distance(transform.position, currentTarget);
 
         // --- ADD/KEEP THIS LOG ---
-        Debug.Log($"Stop Check Values >> Active: {hasActiveTarget}, Final: {isFinalDestination}, Dist: {distance:F2}, Radius: {targetRadius}");
+        //Debug.Log($"Stop Check Values >> Active: {hasActiveTarget}, Final: {isFinalDestination}, Dist: {distance:F2}, Radius: {targetRadius}");
 
         // Strong stop condition block
         if (hasActiveTarget && isFinalDestination && distance < targetRadius)
@@ -132,7 +127,7 @@ public class SteeringBehavior : MonoBehaviour
          {
              // Ensure slowRadius > targetRadius for this calculation!
              if (slowRadius <= targetRadius) {
-                  Debug.LogWarning("slowRadius should be greater than targetRadius for arrival behavior!");
+                  //Debug.LogWarning("slowRadius should be greater than targetRadius for arrival behavior!");
                   desiredSpeed = (distance < targetRadius) ? 0 : kinematic.max_speed; // Basic handling if radii invalid
              } else {
                  float speedFactor = Mathf.Clamp01((distance - targetRadius) / (slowRadius - targetRadius));
@@ -160,11 +155,10 @@ public class SteeringBehavior : MonoBehaviour
     } // End of Update()
 
 
-    // Keep the StopMovement() helper function as is
     void StopMovement()
     {
-        // Add this line BACK if you removed it for testing:
-         Debug.LogError("!!! StopMovement() CALLED !!!");
+        // Debugging StopMovement
+        //Debug.LogError("!!! StopMovement() CALLED !!!");
 
         if (kinematic != null)
         {
@@ -175,8 +169,6 @@ public class SteeringBehavior : MonoBehaviour
         }
     }
 
-
-    // --- MODIFY SetTarget and SetPath ---
     public void SetTarget(Vector3 target)
     {
         this.path = null;
@@ -189,7 +181,6 @@ public class SteeringBehavior : MonoBehaviour
          // if (kinematic != null) { Update(); }
     }
 
-    // --- REVERTED TO ORIGINAL ---
     public void SetPath(List<Vector3> path)
     {
         if (path == null || path.Count == 0)
@@ -210,13 +201,9 @@ public class SteeringBehavior : MonoBehaviour
             this.hasActiveTarget = true; // << SET FLAG HERE
             // EventBus.ShowPath(path); // Still commented out
             if (label != null) label.text = "Path Set";
-             // Remove the immediate Update() call here, let the normal Update loop handle it
-             // if (kinematic != null) { Update(); }
         }
     }
-    // -----------------------------------
 
-    // Keep SetMap and OnDestroy as they were
     public void SetMap(List<Wall> outline)
     {
         // Reset state when map changes
