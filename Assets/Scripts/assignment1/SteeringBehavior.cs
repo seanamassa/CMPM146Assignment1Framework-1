@@ -6,6 +6,7 @@ using TMPro;
 
 public class SteeringBehavior : MonoBehaviour
 {
+    // --- Original Member Variables ---
     public Vector3 target;
     public KinematicBehavior kinematic;
     public List<Vector3> path;
@@ -42,6 +43,8 @@ public class SteeringBehavior : MonoBehaviour
 
 // PASTE THIS VERSION BACK INTO YOUR SteeringBehavior.cs
 
+    // Update is called once per frame
+    // --- ALL LOGIC MOVED HERE ---
     void Update()
     {
         if (kinematic == null) return;
@@ -186,6 +189,7 @@ public class SteeringBehavior : MonoBehaviour
          // if (kinematic != null) { Update(); }
     }
 
+    // --- REVERTED TO ORIGINAL ---
     public void SetPath(List<Vector3> path)
     {
         if (path == null || path.Count == 0)
@@ -215,6 +219,7 @@ public class SteeringBehavior : MonoBehaviour
     // Keep SetMap and OnDestroy as they were
     public void SetMap(List<Wall> outline)
     {
+        // Reset state when map changes
         this.path = null;
         this.target = transform.position;
         this.currentPathIndex = 0;
