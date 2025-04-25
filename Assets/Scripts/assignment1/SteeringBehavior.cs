@@ -6,13 +6,12 @@ using TMPro;
 
 public class SteeringBehavior : MonoBehaviour
 {
-    // --- Original Member Variables ---
     public Vector3 target;
     public KinematicBehavior kinematic;
     public List<Vector3> path;
     public TextMeshProUGUI label;
 
-    // --- Steering Variables ---
+    // Steering Variables
     public float targetRadius = 0.5f; // Radius around target to consider arrived
     public float slowRadius = 5.0f;   // Radius to start slowing down for target/waypoint
     public float waypointRadius = 1.0f; // Radius around waypoint to consider it reached
@@ -21,9 +20,7 @@ public class SteeringBehavior : MonoBehaviour
 
     private int currentPathIndex = 0; // Index for the current waypoint in the path
 
-    // --- ADD THIS FLAG ---
     private bool hasActiveTarget = false; // Track if a target/path has been set by user
-    // --------------------
 
 
     void Start()
@@ -45,14 +42,13 @@ public class SteeringBehavior : MonoBehaviour
     {
         if (kinematic == null) return;
 
-        // --- EXIT EARLY IF NO ACTIVE TARGET ---
+        //  EXIT EARLY IF NO ACTIVE TARGET
         if (!hasActiveTarget)
         {
             StopMovement();
             if (label != null) label.text = "Waiting for Target...";
             return;
         }
-        // --------------------------------------
 
 
         Vector3 currentTarget;
@@ -103,10 +99,10 @@ public class SteeringBehavior : MonoBehaviour
             if (label != null) label.text = $"To Target: {distanceToTarget:F1}m";
         }
 
-        // --- Check for immediate stop condition FIRST (Requires active target AND final destination) ---
+        // Check for immediate stop condition FIRST (Requires active target AND final destination)
         float distance = Vector3.Distance(transform.position, currentTarget);
 
-        // --- ADD/KEEP THIS LOG ---
+        // DEBUGGING
         //Debug.Log($"Stop Check Values >> Active: {hasActiveTarget}, Final: {isFinalDestination}, Dist: {distance:F2}, Radius: {targetRadius}");
 
         // Strong stop condition block
